@@ -6,4 +6,4 @@ conn = lite.connect('sensehat.db')
 with conn:
     cur = con.cursor()
     cur.execute("DROP TABLE IF EXISTS SENSEHAT_data")
-    cur.execute(CREATE TABLE SENSEHAT_Data(timestamp DATETIME, temp NUMERIC, humidity NUMERIC"))
+    cur.execute("CREATE TABLE SENSEHAT_Data(timestamp DATETIME, temp NUMERIC, humidity NUMERIC"))
