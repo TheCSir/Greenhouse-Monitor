@@ -2,6 +2,7 @@ from datetime import datetime, timedelta
 from sense_hat import SenseHat
 import time
 import sqlite3
+import json
 
 class MonitorAndNotify():
 
@@ -33,9 +34,13 @@ class MonitorAndNotify():
         conn.commit()
         conn.close()
 
+        #after adding into database, check if need to push notification
+        self.checkDataBounds()
 
-	
-
-
-
-
+    def checkDataBounds(self):
+        with open("config.json", "r") as file:
+            data = json.load(file)
+        
+        if self.temperature < data["min_temperature"] or self.temperature > data["max_temperature"] or self.humidity < data["min_humidity"] or self.humidity > data["max_humidity"]:
+            # Pushbullet notification
+            print("")
