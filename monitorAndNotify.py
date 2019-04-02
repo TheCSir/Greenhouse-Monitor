@@ -27,7 +27,7 @@ class MonitorAndNotify():
             self.logData()   
     
     def getTime(self):
-        currentTime = datetime.now()
+        currentTime = datetime.utcnow()
         currentTime = currentTime - timedelta(hours=self.timezone)
         return(currentTime.strftime("%H:%M"))
 
