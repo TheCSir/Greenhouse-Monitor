@@ -18,6 +18,7 @@ class MonitorAndNotify():
         self.configuration = cofigfile
         self.ACCESS_TOKEN=accesstoken
     
+    #main method to perform task a
     def getSenseHatData(self):
 
         #init SenseHat and read data
@@ -28,6 +29,7 @@ class MonitorAndNotify():
         #set global variables
         self.temperature = round(temperature, 1)
         self.humidity = round(humidity, 1)
+        #store data to database and do notification if necessary
         self.logData()   
     
     #get current timestamp
@@ -53,16 +55,40 @@ class MonitorAndNotify():
         self.checkDataBounds()
 
     def send_notification(self,title,body):
-        data_send = {"type": "note", "title": title, "body": body}
-        response = requests.post('https://api.pushbullet.com/v2/pushes', data=json.dumps(data_send), headers={'Authorization': 'Bearer ' + self.ACCESS_TOKEN, 'Content-Type': 'application/json'})
+
+        conn = sqlite3.connect(self.dbname)
+        cur = conn.cursor()
+
+        #check if notification is send already
+        cur.execute("SELECT count(SENSEHAT_DailyNotification.date) FROM `SENSEHAT_DailyNotification` where SENSEHAT_DailyNotification.date = (?)",(self.getDate(),))
+        result= cur.fetchall()
+        for row in result:
+            count = row[0]
+
+        #count is not 0 if notification is alrady sent for the day
+        if count == 0:
+
+            data_send = {"type": "note", "title": title, "body": body}
+            response = requests.post('https://api.pushbullet.com/v2/pushes', data=json.dumps(data_send), headers={'Authorization': 'Bearer ' + self.ACCESS_TOKEN, 'Content-Type': 'application/json'})
+            
+            #check if sending fails
+            if response.status_code != 200:
+                raise Exception('Message not sent.')
+
+            #if not update database
+            else:
+                cur.execute("INSERT INTO `SENSEHAT_DailyNotification` (date) VALUES (?)",(self.getDate(),))
+                conn.commit()
         
-        if response.status_code != 200:
-            raise Exception('Message not sent.')
+        conn.close()
         
     def checkDataBounds(self):
+
+        #get data from jason
         with open(self.configuration, "r") as file:
             data = json.load(file)
-        
+
+        #check boundries        
         if self.temperature < data["min_temperature"] or self.humidity < data["min_humidity"]:
             self.send_notification("Raspberry Pi Data Update", "Temperature and/or Humidity is less than the configured parameters.")
         elif self.temperature > data["max_temperature"] or self.humidity > data["max_humidity"]:
