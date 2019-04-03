@@ -11,7 +11,7 @@ class MonitorAndNotify():
 # dbname = name of the database
     
     # Put your accesstoken from Pushbullet here
-    ACCESS_TOKEN = ""
+    ACCESS_TOKEN = "o.ZJwli1lhTH9nH1pKrSisFfMivfGO3SP4"
 
     def __init__(self, timezone=11,dbname='sensehat.db',senseHat=SenseHat()):
         self.temperature = senseHat.get_temperature()
@@ -31,10 +31,14 @@ class MonitorAndNotify():
         currentTime = currentTime - timedelta(hours=self.timezone)
         return(currentTime.strftime("%H:%M"))
 
+    def getDate(self):
+        currentDate = time.strftime("%d/%m/%Y")
+        return(currentDate)
+
     def logData(self):
         conn = sqlite3.connect(self.dbname)
         curs = conn.cursor()
-        curs.execute("INSERT INTO SENSEHAT_data values(?,?,?)", (self.getTime(), self.temperature, self.humidity))
+        curs.execute("INSERT INTO SENSEHAT_data values(?,?,?,?)", (self.getDate, self.getTime(), self.temperature, self.humidity))
         conn.commit()
         conn.close()
 
