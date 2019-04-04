@@ -14,4 +14,6 @@ with conn:
     cur.execute("DROP TABLE IF EXISTS SENSEHAT_DailyNotification")
     cur.execute("CREATE TABLE SENSEHAT_DailyNotification(date DATETIME)")
 
-    
+    #table for bluetooth devices
+    cur.execute("DROP TABLE IF EXISTS SENSEHAT_BTDevices")
+    cur.execute("CREATE TABLE SENSEHAT_BTDevices(device_name,mac_address)")
