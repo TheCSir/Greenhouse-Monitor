@@ -18,12 +18,11 @@ class SendNotification:
 		conn = sqlite3.connect(self.dbname)
 		cur = conn.cursor()
 
-        		#check if notification is send already
+        #check if notification is send already
 		cur.execute("SELECT count(date) FROM " + self.tableName + " where date = (?)",(self.date,))
 		result= cur.fetchall()
 		for row in result:
 			count = row[0]
-		print(count)
 
         #count is not 0 if notification is alrady sent for the day
 		if count == 0:
