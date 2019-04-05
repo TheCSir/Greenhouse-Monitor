@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import sqlite3
 
 # Remember to install SQLite, create a directory and then create a database

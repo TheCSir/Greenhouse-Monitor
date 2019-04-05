@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import csv
 import sqlite3
 import json
@@ -116,8 +117,4 @@ class CreateReport:
             #append data
             writer = csv.writer(file,escapechar='', quoting=csv.QUOTE_NONE)
             writer.writerow([date,status])
-
-
-
-report = CreateReport('sensehat.db','report.csv','config.json')
-report.GenerateReport()
+            

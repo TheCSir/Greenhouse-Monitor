@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 from crontab import CronTab
     
 #init cron
