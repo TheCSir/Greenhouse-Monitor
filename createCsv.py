@@ -28,16 +28,16 @@ class createCsv:
             humidity = row[3]
             
             #append data to csv
-            self.writeToCSV(date,time,tepmtature,humidity)
+            self.writeToCSV(date,time,temprature,humidity)
 
     #append the data to csv
-    def writeToCSV(self,date,time,tepmtature,humidity):
+    def writeToCSV(self,date,time,temprature,humidity):
 
         with open(self.outputfilename , 'a', newline='') as file:
 
             #append data
             writer = csv.writer(file,escapechar='', quoting=csv.QUOTE_NONE)
-            writer.writerow([date,time,tepmtature,tepmtature])
+            writer.writerow([date,time,temprature,humidity])
 
 
 report = createCsv('sensehat.db','temp.csv')
