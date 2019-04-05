@@ -111,7 +111,7 @@ class CreateReport:
     #append the data to csv
     def writeToCSV(self,date,status):
 
-        with open(self.filename , 'a') as file:
+        with open(self.filename , 'a' ,newline='') as file:
 
             #append data
             writer = csv.writer(file,escapechar='', quoting=csv.QUOTE_NONE)
