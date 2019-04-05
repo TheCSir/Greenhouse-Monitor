@@ -18,7 +18,7 @@ class CreateReport:
         cur = conn.cursor()
 
         #create report CSV file
-        self.creteCSV()
+        self.createCSV()
 
         #get all diffrent days
         cur.execute("SELECT date FROM `SENSEHAT_Data` GROUP BY SENSEHAT_Data.date;")
@@ -100,7 +100,7 @@ class CreateReport:
             return ' BAD :' + Message
 
     #create filenamed 'report.csv'
-    def creteCSV(self):
+    def createCSV(self):
         
         with open(self.filename , 'w') as file:
 

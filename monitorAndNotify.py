@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta
+from sendNotification import SendNotification
 from sense_hat import SenseHat
 import time
 import sqlite3
@@ -54,34 +55,7 @@ class MonitorAndNotify():
         #Check recorded temperature to see if needed to push notification
         self.checkDataBounds()
 
-    def send_notification(self,title,body):
-
-        conn = sqlite3.connect(self.dbname)
-        cur = conn.cursor()
-
-        #check if notification is send already
-        cur.execute("SELECT count(SENSEHAT_DailyNotification.date) FROM `SENSEHAT_DailyNotification` where SENSEHAT_DailyNotification.date = (?)",(self.getDate(),))
-        result= cur.fetchall()
-        for row in result:
-            count = row[0]
-
-        #count is not 0 if notification is alrady sent for the day
-        if count == 0:
-
-            data_send = {"type": "note", "title": title, "body": body}
-            response = requests.post('https://api.pushbullet.com/v2/pushes', data=json.dumps(data_send), headers={'Authorization': 'Bearer ' + self.ACCESS_TOKEN, 'Content-Type': 'application/json'})
-            
-            #check if sending fails
-            if response.status_code != 200:
-                raise Exception('Message not sent.')
-
-            #if not update database
-            else:
-                cur.execute("INSERT INTO `SENSEHAT_DailyNotification` (date) VALUES (?)",(self.getDate(),))
-                conn.commit()
-        
-        conn.close()
-        
+    #check bounds and send necessary notifications 
     def checkDataBounds(self):
 
         #get data from jason
@@ -90,9 +64,11 @@ class MonitorAndNotify():
 
         #check boundries        
         if self.temperature < data["min_temperature"] or self.humidity < data["min_humidity"]:
-            self.send_notification("Raspberry Pi Data Update", "Temperature and/or Humidity is less than the configured parameters.")
+            Allerter = SendNotification(self.dbname,'SENSEHAT_DailyNotification',self.getDate(),self.ACCESS_TOKEN)
+            Allerter.send_notification("Raspberry Pi Data Update", "Temperature and/or Humidity is less than the configured parameters.")
         elif self.temperature > data["max_temperature"] or self.humidity > data["max_humidity"]:
-            self.send_notification("Raspberry Pi Data Update", "Temperature and/or Humidity is greater than configured parameters.")
+            Allerter = SendNotification(self.dbname,'SENSEHAT_DailyNotification',self.getDate(),self.ACCESS_TOKEN)
+            Allerter.send_notification("Raspberry Pi Data Update", "Temperature and/or Humidity is greater than configured parameters.")
 
             
 
