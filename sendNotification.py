@@ -24,10 +24,10 @@ class SendNotification:
 
         #check boundaries        
 		if temperature < data["min_temperature"] or humidity < data["min_humidity"]:
-			self.send_notification("Raspberry Pi Data Update", "Recorded temperature: {temperature}\nRecorded humidity: {humidity}\n"+
+			self.send_notification("Raspberry Pi Data Update", "Recorded temperature: " + str(temperature) +"\nRecorded humidity: "+ str(humidity)+"\n\n"+
 				"Temperature and/or Humidity is less than the configured parameters.")
 		elif temperature > data["max_temperature"] or humidity > data["max_humidity"]:
-			self.send_notification("Raspberry Pi Data Update", "Recorded temperature: {temperature}\nRecorded humidity: {humidity}\n"+
+			self.send_notification("Raspberry Pi Data Update", "Recorded temperature: "+ str(temperature)+"\nRecorded humidity: "+ str(humidity)+"\n\n"+
 				"Temperature and/or Humidity is greater than the configured parameters.")
 
 	def send_notification(self,title,body):
@@ -46,7 +46,7 @@ class SendNotification:
 		if count == 0:
 
 			data_send = {"type": "note", "title": title, "body": body}
-			response = requests.post('https://api.pushbullet.com/v2/pushes', data=json.dumps(data_send), headers={'Authorization': 'Bearer ' + utility.getAccessToken, 'Content-Type': 'application/json'})
+			response = requests.post('https://api.pushbullet.com/v2/pushes', data=json.dumps(data_send), headers={'Authorization': 'Bearer ' + utility.getAccessToken(), 'Content-Type': 'application/json'})
             
             #check if sending fails
 			if response.status_code != 200:
