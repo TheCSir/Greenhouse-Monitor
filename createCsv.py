@@ -27,20 +27,20 @@ class createCsv:
         for row in result:
             date = row[0]
             time = row[1]
-            temprature = row[2]
+            temperature = row[2]
             humidity = row[3]
             
             #append data to csv
-            self.writeToCSV(date,time,temprature,humidity)
+            self.writeToCSV(date,time,temperature,humidity)
 
     #append the data to csv
-    def writeToCSV(self,date,time,temprature,humidity):
+    def writeToCSV(self,date,time,temperature,humidity):
 
         with open(self.outputfilename , 'a', newline='') as file:
 
             #append data
             writer = csv.writer(file,escapechar='', quoting=csv.QUOTE_NONE)
-            writer.writerow([date,time,temprature,humidity])
+            writer.writerow([date,time,temperature,humidity])
 
     #init csv header
     def InitCSV(self):
@@ -49,7 +49,7 @@ class createCsv:
 
             #append initial row
             writer = csv.writer(file)
-            writer.writerow(['Date','Time','Temprature','Humidity'])
+            writer.writerow(['Date','Time','Temperature','Humidity'])
 
 
 
