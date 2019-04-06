@@ -51,7 +51,3 @@ class createCsv:
             writer = csv.writer(file)
             writer.writerow(['Date','Time','Temperature','Humidity'])
 
-
-
-report = createCsv('sensehat.db','temp.csv')
-report.GenerateReport()
