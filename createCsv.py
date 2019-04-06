@@ -16,6 +16,9 @@ class createCsv:
         conn = sqlite3.connect(self.dbName)
         cur = conn.cursor()
 
+        #call init csv
+        self.InitCSV()
+
         #get all diffrent days
         cur.execute("SELECT * FROM `SENSEHAT_Data`;")
 
@@ -24,7 +27,7 @@ class createCsv:
         for row in result:
             date = row[0]
             time = row[1]
-            tepmtature = row[2]
+            temprature = row[2]
             humidity = row[3]
             
             #append data to csv
@@ -38,6 +41,16 @@ class createCsv:
             #append data
             writer = csv.writer(file,escapechar='', quoting=csv.QUOTE_NONE)
             writer.writerow([date,time,temprature,humidity])
+
+    #init csv header
+    def InitCSV(self):
+        
+        with open(self.outputfilename , 'w',newline='') as file:
+
+            #append initial row
+            writer = csv.writer(file)
+            writer.writerow(['Date','Time','Temprature','Humidity'])
+
 
 
 report = createCsv('sensehat.db','temp.csv')
