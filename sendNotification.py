@@ -24,7 +24,7 @@ class SendNotification:
 			data = json.load(file)
 
 		if(bluetooth == True):
-			bluetooth_msg = "Bluetooth Device Connected!\n\n"
+			bluetooth_msg = "Bluetooth Device Connected!\n"
 
         #check boundaries        
 		if temperature < data["min_temperature"] or humidity < data["min_humidity"]:
