@@ -15,19 +15,23 @@ class SendNotification:
 
 
 	    #check bounds and send necessary notifications 
-	def checkDataBounds(self,temperature,humidity):
+	def checkDataBounds(self,temperature,humidity,bluetooth=False):
 
-
-        #get data from jason
+		bluetooth_msg = ""
+        
+		#get data from jason
 		with open(self.configFile, "r") as file:
 			data = json.load(file)
 
+		if(bluetooth == True):
+			bluetooth_msg = "Bluetooth Device Connected!\n\n"
+
         #check boundaries        
 		if temperature < data["min_temperature"] or humidity < data["min_humidity"]:
-			self.send_notification("Raspberry Pi Data Update", "Recorded temperature: " + str(temperature) +"\nRecorded humidity: "+ str(humidity)+"\n\n"+
+			self.send_notification(bluetooth_msg + "Raspberry Pi Data Update", "Recorded temperature: " + str(temperature) +"\nRecorded humidity: "+ str(humidity)+"\n\n"+
 				"Temperature and/or Humidity is less than the configured parameters.")
 		elif temperature > data["max_temperature"] or humidity > data["max_humidity"]:
-			self.send_notification("Raspberry Pi Data Update", "Recorded temperature: "+ str(temperature)+"\nRecorded humidity: "+ str(humidity)+"\n\n"+
+			self.send_notification(bluetooth_msg + "Raspberry Pi Data Update", "Recorded temperature: "+ str(temperature)+"\nRecorded humidity: "+ str(humidity)+"\n\n"+
 				"Temperature and/or Humidity is greater than the configured parameters.")
 
 	def send_notification(self,title,body):

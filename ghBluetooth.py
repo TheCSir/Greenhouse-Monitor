@@ -10,8 +10,9 @@ from usefulMethods import Utility
 
 class GreenHouseBluetooth:
 
-    def __init__(self,dbname):
-        self.dbname = dbname
+    def __init__(self):
+        utility = Utility()
+        self.dbname = utility.getDbName()
 
     def isDeviceInDb(self, mac_address):
         conn = sqlite3.connect(self.dbname)
@@ -46,7 +47,7 @@ class GreenHouseBluetooth:
                     
                     #check if notification is needed to be sent
                     alert = SendNotification('SENSEHAT_BTDailyNotification',utility.getDate())
-                    alert.send_notification(man.temperature,man.humidity)
+                    alert.checkDataBounds(man.temperature,man.humidity,True)
                     break
 
     #Add the mac address of the device you want to be found
@@ -57,5 +58,6 @@ class GreenHouseBluetooth:
         conn.commit()
         conn.close()
 
-#TEST: a = GreenHouseBluetooth('/home/pi/GreenHouseMonitor/sensehat.db')
+#TEST: a = GreenHouseBluetooth()
+#TEST: a.addNewDevice("48:E2:44:F5:6B:62")
 #TEST: a.search()

@@ -17,7 +17,7 @@ with conn:
 
     #table for bluetooth devices
     cur.execute("DROP TABLE IF EXISTS SENSEHAT_BTDevices")
-    cur.execute("CREATE TABLE SENSEHAT_BTDevices(device_name,mac_address)")
+    cur.execute("CREATE TABLE SENSEHAT_BTDevices(mac_address)")
 
     #table for bluetooth notification
     cur.execute("DROP TABLE IF EXISTS SENSEHAT_BTDailyNotification")
