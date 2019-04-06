@@ -4,7 +4,8 @@ from monitorAndNotify import MonitorAndNotify
 
 
 #init MoniMonitorAndNotify class with user inputs
-main = MonitorAndNotify(11,'sensehat.db','config.json',"o.ZJwli1lhTH9nH1pKrSisFfMivfGO3SP4")
+main = MonitorAndNotify()
 
 #call getSenseHatData method
 main.getSenseHatData()
+main.logData()
