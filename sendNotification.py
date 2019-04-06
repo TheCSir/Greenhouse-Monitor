@@ -3,19 +3,37 @@ import sqlite3
 import time
 import requests
 import json
+from usefulMethods import Utility
 
 
 class SendNotification:
 
-	def __init__(self,dbname,tableName,date,accessToken):
-		self.dbname = dbname
+	def __init__(self,tableName,date,configFile="config.json"):
 		self.tableName = tableName
-		self.accessToken = accessToken
 		self.date = date
+		self.configFile = configFile
+
+
+	    #check bounds and send necessary notifications 
+	def checkDataBounds(self,temperature,humidity):
+
+
+        #get data from jason
+		with open(self.configFile, "r") as file:
+			data = json.load(file)
+
+        #check boundaries        
+		if temperature < data["min_temperature"] or humidity < data["min_humidity"]:
+			self.send_notification("Raspberry Pi Data Update", "Recorded temperature: {temperature}\nRecorded humidity: {humidity}\n"+
+				"Temperature and/or Humidity is less than the configured parameters.")
+		elif temperature > data["max_temperature"] or humidity > data["max_humidity"]:
+			self.send_notification("Raspberry Pi Data Update", "Recorded temperature: {temperature}\nRecorded humidity: {humidity}\n"+
+				"Temperature and/or Humidity is greater than the configured parameters.")
 
 	def send_notification(self,title,body):
 
-		conn = sqlite3.connect(self.dbname)
+		utility = Utility()
+		conn = sqlite3.connect(utility.getDbName())
 		cur = conn.cursor()
 
         #check if notification is send already
@@ -28,7 +46,7 @@ class SendNotification:
 		if count == 0:
 
 			data_send = {"type": "note", "title": title, "body": body}
-			response = requests.post('https://api.pushbullet.com/v2/pushes', data=json.dumps(data_send), headers={'Authorization': 'Bearer ' + self.accessToken, 'Content-Type': 'application/json'})
+			response = requests.post('https://api.pushbullet.com/v2/pushes', data=json.dumps(data_send), headers={'Authorization': 'Bearer ' + utility.getAccessToken, 'Content-Type': 'application/json'})
             
             #check if sending fails
 			if response.status_code != 200:
