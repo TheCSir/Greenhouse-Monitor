@@ -3,6 +3,10 @@ import bluetooth
 import os
 import time
 import sqlite3
+from sendNotification import SendNotification
+from monitorAndNotify import MonitorAndNotify
+from usefulMethods import Utility
+
 
 class GreenHouseBluetooth:
 
@@ -27,12 +31,22 @@ class GreenHouseBluetooth:
     #scans the area to see the bluetooth-enabled devices
     def search(self):
         while True:
+
             nearby_devices = bluetooth.discover_devices()
 
             #loop through the mac address found by the pi
             for mac_address in nearby_devices:
                 if self.isDeviceInDb(mac_address) == True:
-                   #TODO SEND NOTIFICATION
+                    #create utility class to get the date
+                    utility = Utility()
+                    
+                    #checks the current temperature and humidity
+                    man = MonitorAndNotify()
+                    man.getSenseHatData()
+                    
+                    #check if notification is needed to be sent
+                    alert = SendNotification('SENSEHAT_BTDailyNotification',utility.getDate())
+                    alert.send_notification(man.temperature,man.humidity)
                     break
 
     #Add the mac address of the device you want to be found
