@@ -1,13 +1,15 @@
 #!/usr/bin/env python3
 import csv
 import sqlite3
+from Utility.utility_methods import Utility
 
-class createCSV:
+class CreateCSV:
 
     # Initializer / Instance Attributes
-    def __init__(self, dbName,flename):
-        self.dbName = dbName
-        self.outputfilename = flename
+    def __init__(self,filename):
+        util = Utility()
+        self.dbName = util.getDbName()
+        self.outputFileName = filename
 
     #get datafromDatabase
     def GenerateReport(self):
@@ -36,7 +38,7 @@ class createCSV:
     #append the data to csv
     def writeToCSV(self,date,time,temperature,humidity):
 
-        with open(self.outputfilename , 'a', newline='') as file:
+        with open(self.outputFileName , 'a', newline='') as file:
 
             #append data
             writer = csv.writer(file,escapechar='', quoting=csv.QUOTE_NONE)
@@ -45,9 +47,11 @@ class createCSV:
     #init csv header
     def InitCSV(self):
         
-        with open(self.outputfilename , 'w',newline='') as file:
+        with open(self.outputFileName , 'w',newline='') as file:
 
             #append initial row
             writer = csv.writer(file)
             writer.writerow(['Date','Time','Temperature','Humidity'])
 
+report = CreateCSV('Analytics/data.csv')
+report.GenerateReport()

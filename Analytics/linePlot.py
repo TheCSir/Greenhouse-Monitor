@@ -12,7 +12,10 @@ class LinePlot(AbstractAnalytics):
 		date_today = datetime.date.today().strftime('%d/%m/%Y')
 		
 		#reads csv
-		sensehat_data = pd.read_csv('temp.csv')		
+		sensehat_data = pd.read_csv('data.csv')
+
+		#get the latest data the past 15 minutes
+		sensehat_data = sensehat_data.tail(15)		
 		
 		#only use data as todays date
 		sensehat_data = sensehat_data.loc[sensehat_data["Date"] == date_today]

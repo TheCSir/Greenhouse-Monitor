@@ -1,5 +1,5 @@
 {
-    "dbname": "sensehat.db",
-    "accessToken": "",
-    "timezone": 11
+    "dbName": "/home/pi/GreenHouseMonitor/sensehat.db",
+    "accessToken": "o.2bAlqhPOWQsWOTf1FIlwm0ffIjOMV9VU",
+    "timezone": 10
 }

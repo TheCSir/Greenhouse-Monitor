@@ -5,7 +5,7 @@ import json
 
 class Utility:
 
-    def __init__(self,configFile="setup.json"):
+    def __init__(self,configFile="/home/pi/GreenHouseMonitor/Utility/setup.json"):
         self.configFile = configFile
 
     #get current timestamp
