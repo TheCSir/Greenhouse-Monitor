@@ -13,10 +13,10 @@ class CreateReport:
         self.configurations=configs
 
     #get datafromDatabase
-    def GenerateReport(self):
+    def generate_report(self):
 
         #create report CSV file
-        self.createCSV()
+        self.create_CSV()
 
         try:
             #open sql connection
@@ -30,16 +30,17 @@ class CreateReport:
             #loop throught days
             for row in result:
                 date = row[0]
-                currentline = self.AnalyzeData(self.GetDailyData(date)[0],self.GetDailyData(date)[1],
-                                self.GetDailyData(date)[2],self.GetDailyData(date)[3])
+                currentline = self.analyse_data(self.get_daily_data(date)[0],self.get_daily_data(date)[1],
+                                self.get_daily_data(date)[2],self.get_daily_data(date)[3])
                 
                 #append data to csv
-                self.writeToCSV(date,currentline)
+                self.write_to_CSV(date,currentline)
         except Exception as err:
-            print('Query Failed: %s\nError: %s' % (query, str(err)))
+            print(err)
+            sys.exit(1)
 
     #get the min max data for the selected date
-    def GetDailyData(self,date):
+    def get_daily_data(self,date):
 
         try:
             conn = sqlite3.connect(self.dbName)
@@ -71,7 +72,7 @@ class CreateReport:
             for row in result:
                 MinHumidity = row[0]
         except Exception as err:
-            print(error)
+            print(err)
             sys.exit(1)
 
 
@@ -79,7 +80,7 @@ class CreateReport:
         return(MinTemp,MaxTemp,MinHumidity,MaxHumidity)
 
     #analyze data and genarate message
-    def AnalyzeData(self,minTemp,maxTemp,minHum,maxHum):
+    def analyse_data(self,minTemp,maxTemp,minHum,maxHum):
 
         isGood = True
         Message = ''
@@ -116,7 +117,7 @@ class CreateReport:
             return ' BAD :' + Message
 
     #create filenamed 'report.csv'
-    def createCSV(self):
+    def create_CSV(self):
 
         try:
             with open(self.filename , 'w') as file:
@@ -128,7 +129,7 @@ class CreateReport:
             print("I/O error({0}): {1}".format(e.errno, e.strerror))
 
     #append the data to csv
-    def writeToCSV(self,date,status):
+    def write_to_CSV(self,date,status):
 
         try:
             with open(self.filename , 'a' ,newline='') as file:
@@ -139,3 +140,5 @@ class CreateReport:
         except IOError as e:
             print("I/O error({0}): {1}".format(e.errno, e.strerror))
             
+report = CreateReport('sensehat.db','report.csv','config.json')
+report.generate_report()

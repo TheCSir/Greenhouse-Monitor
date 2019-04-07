@@ -20,7 +20,7 @@ class MonitorAndNotify():
         self.humidity = None
 
     #main method to perform task a
-    def getSenseHatData(self):
+    def get_sense_hat_data(self):
 
         #init SenseHat and read data
         senseHat_call = SenseHat()
@@ -32,20 +32,20 @@ class MonitorAndNotify():
         self.humidity = round(humidity, 1)
 
     #add gathered data to Database
-    def logData(self):
+    def log_data(self):
 
         utility = Utility()
-        date = utility.getDate()
-        time = utility.getTime()
+        date = utility.get_date()
+        time = utility.get_time()
         
         try:
-            conn = sqlite3.connect(utility.getDbName())
+            conn = sqlite3.connect(utility.get_db_name())
             curs = conn.cursor()
             curs.execute("INSERT INTO SENSEHAT_data values(?,?,?,?)", (date, time, self.temperature, self.humidity))
             conn.commit()
             conn.close()
         except Exception as err:
-            print(error)
+            print(err)
             sys.exit(1)
 
         #Check recorded temperature/humidity to see if needed to push notification

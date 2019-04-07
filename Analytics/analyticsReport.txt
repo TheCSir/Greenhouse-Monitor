@@ -5,7 +5,7 @@ For the line plot:
 - This will show the relationship between Temperature and Humidity as the minute goes by, 
 as there will be a lot of data due to storing it every minute the values for the 'x' axis on the visualization will be crowded that is why we limited
 it only to the past 15 minutes or 15 readings stored. The strength of the line plot is that even though we're using few data points
-due to the continous line we can still see the overall trend by the second.
+due to the continous line we cagit n still see the overall trend by the second.
 
 For the scatter plot:
 - We used more data points compared to the previous visualisation to show the overall relationship between the the temperature and humidty

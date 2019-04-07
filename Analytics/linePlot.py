@@ -6,7 +6,7 @@ from abstractAnalytics import AbstractAnalytics
 
 class LinePlot(AbstractAnalytics):
 
-	def generatePNG(self):
+	def generate_PNG(self):
 
 		#gets the current day in the same format as stored in csv
 		date_today = datetime.date.today().strftime('%d/%m/%Y')

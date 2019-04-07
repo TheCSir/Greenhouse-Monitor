@@ -13,10 +13,10 @@ class GreenHouseBluetooth:
 
     def __init__(self):
         utility = Utility()
-        self.dbname = utility.getDbName()
+        self.dbname = utility.get_db_name()
 
     #check if the mac address passed in is in the database (i.e. paired with)
-    def isDeviceInDb(self, mac_address):
+    def is_device_in_db(self, mac_address):
 
         try:
             conn = sqlite3.connect(self.dbname)
@@ -33,7 +33,7 @@ class GreenHouseBluetooth:
             else:
                 return False
         except Exception as err:
-            print(error)
+            print(err)
             sys.exit(1)
 
     #scans the area to see the bluetooth-enabled devices
@@ -44,7 +44,7 @@ class GreenHouseBluetooth:
 
             #loop through the mac address found by the pi
             for mac_address in nearby_devices:
-                if self.isDeviceInDb(mac_address) == True:
+                if self.is_device_in_db(mac_address) == True:
                     #create utility class to get the date
                     utility = Utility()
                     
@@ -53,12 +53,12 @@ class GreenHouseBluetooth:
                     man.getSenseHatData()
                     
                     #check if notification is needed to be sent
-                    alert = SendNotification('SENSEHAT_BTDailyNotification',utility.getDate())
+                    alert = SendNotification('SENSEHAT_BTDailyNotification',utility.get_date())
                     alert.checkDataBounds(man.temperature,man.humidity,True)
                     break
 
     #Add the mac address of the device you want to be found
-    def addNewDevice(self, mac_address):
+    def add_new_device(self, mac_address):
         try:
             conn = sqlite3.connect(self.dbname)
             curs = conn.cursor()
@@ -66,7 +66,7 @@ class GreenHouseBluetooth:
             conn.commit()
             conn.close()
         except Exception as err:
-            print(error)
+            print(err)
             sys.exit(1)
 
 #execute

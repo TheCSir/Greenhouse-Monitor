@@ -9,11 +9,11 @@ class CreateCSV:
     # Initializer / Instance Attributes
     def __init__(self,filename):
         util = Utility()
-        self.dbName = util.getDbName()
+        self.dbName = util.get_db_name()
         self.outputFileName = filename
 
     #get datafromDatabase
-    def GenerateReport(self):
+    def generate_report(self):
 
         try:
             #open sql connection
@@ -21,7 +21,7 @@ class CreateCSV:
             cur = conn.cursor()
 
             #call init csv
-            self.InitCSV()
+            self.init_CSV()
 
             #get all diffrent days
             cur.execute("SELECT * FROM `SENSEHAT_Data`;")
@@ -35,15 +35,15 @@ class CreateCSV:
                 humidity = row[3]
                 
                 #append data to csv
-                self.writeToCSV(date,time,temperature,humidity)
+                self.write_to_CSV(date,time,temperature,humidity)
         except Exception as err:
-            print(error)
+            print(err)
             sys.exit(1)
 
         
 
     #append the data to csv
-    def writeToCSV(self,date,time,temperature,humidity):
+    def write_to_CSV(self,date,time,temperature,humidity):
 
         try:
             with open(self.outputFileName , 'a', newline='') as file:
@@ -54,7 +54,7 @@ class CreateCSV:
             print("I/O error({0}): {1}".format(e.errno, e.strerror))
 
     #init csv header
-    def InitCSV(self):
+    def init_CSV(self):
 
         try:
             with open(self.outputFileName , 'w',newline='') as file:
@@ -65,4 +65,4 @@ class CreateCSV:
             print("I/O error({0}): {1}".format(e.errno, e.strerror))
 
 report = CreateCSV('Analytics/data.csv')
-report.GenerateReport()
+report.generate_report()

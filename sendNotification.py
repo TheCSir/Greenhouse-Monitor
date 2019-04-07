@@ -16,7 +16,7 @@ class SendNotification:
 
 
 	    #check bounds and send necessary notifications 
-	def checkDataBounds(self,temperature,humidity,bluetooth=False):
+	def check_data_bounds(self,temperature,humidity,bluetooth=False):
 
 		bluetooth_msg = ""
         
@@ -42,20 +42,20 @@ class SendNotification:
 		
 		try:
 		#check if notification is send already
-			conn = sqlite3.connect(utility.getDbName())
+			conn = sqlite3.connect(utility.get_db_name())
 			cur = conn.cursor()
 			cur.execute("SELECT count(date) FROM " + self.tableName + " where date = (?)",(self.date,))
 			result= cur.fetchall()
 			for row in result:
 				count = row[0]
 		except Exception as err:
-			print(error)
+			print(err)
 			sys.exit(1)
         #count is not 0 if notification is alrady sent for the day
 		if count == 0:
 
 			data_send = {"type": "note", "title": title, "body": body}
-			response = requests.post('https://api.pushbullet.com/v2/pushes', data=json.dumps(data_send), headers={'Authorization': 'Bearer ' + utility.getAccessToken(), 'Content-Type': 'application/json'})
+			response = requests.post('https://api.pushbullet.com/v2/pushes', data=json.dumps(data_send), headers={'Authorization': 'Bearer ' + utility.get_access_token(), 'Content-Type': 'application/json'})
             
 			#check if sending fails
 			if response.status_code != 200:
@@ -68,7 +68,7 @@ class SendNotification:
 					conn.commit()        
 					conn.close()
 				except Exception as err:
-					print(error)
+					print(err)
 					sys.exit(1)
 
 

@@ -3,6 +3,6 @@ from abc import ABC, abstractclassmethod
 class AbstractAnalytics(ABC):
 
 	@abstractclassmethod
-	def generatePNG(self):
-		raise NotImplementedError('subclasses must override foo()!')
+	def generate_PNG(self):
+		raise NotImplementedError('Must override method generate_PNG()')
 

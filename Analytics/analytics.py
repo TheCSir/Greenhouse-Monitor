@@ -4,9 +4,9 @@ from scatterPlot import ScatterPlot
 
 #line plot
 lp = LinePlot()
-lp.generatePNG()
+lp.generate_PNG()
 
 
 #scatter plot
 sp = ScatterPlot()
-sp.generatePNG()
+sp.generate_PNG()

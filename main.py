@@ -5,7 +5,7 @@ from monitorAndNotify import MonitorAndNotify
 main = MonitorAndNotify()
 
 #get the temperature and humidity
-main.getSenseHatData()
+main.get_sense_hat_data()
 
 #insert into the database
-main.logData()
+main.log_data()
