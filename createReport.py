@@ -7,9 +7,9 @@ import sys
 class CreateReport:
 
     # Initializer / Instance Attributes
-    def __init__(self, dbName,flename,configs):
+    def __init__(self, dbName,filename,configs):
         self.dbName = dbName
-        self.filename = flename
+        self.filename = filename
         self.configurations=configs
 
     #get datafromDatabase

@@ -50,7 +50,7 @@ class MonitorAndNotify():
 
         #Check recorded temperature/humidity to see if needed to push notification
         alert = SendNotification('SENSEHAT_DailyNotification',date)
-        alert.checkDataBounds(self.temperature,self.humidity)
+        alert.check_data_bounds(self.temperature,self.humidity)
 
 
 

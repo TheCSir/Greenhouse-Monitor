@@ -28,7 +28,7 @@ class GreenHouseBluetooth:
             for row in result:
                 count = row[0]
 
-            if count > 0:
+            if count == 0:
                 return True
             else:
                 return False
@@ -50,11 +50,11 @@ class GreenHouseBluetooth:
                     
                     #checks the current temperature and humidity
                     man = MonitorAndNotify()
-                    man.getSenseHatData()
+                    man.get_sense_hat_data()
                     
                     #check if notification is needed to be sent
                     alert = SendNotification('SENSEHAT_BTDailyNotification',utility.get_date())
-                    alert.checkDataBounds(man.temperature,man.humidity,True)
+                    alert.check_data_bounds(man.temperature,man.humidity,True)
                     break
 
     #Add the mac address of the device you want to be found

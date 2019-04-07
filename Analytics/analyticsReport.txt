@@ -8,12 +8,12 @@ it only to the past 15 minutes or 15 readings stored. The strength of the line p
 due to the continous line we cagit n still see the overall trend by the second.
 
 For the scatter plot:
-- We used more data points compared to the previous visualisation to show the overall relationship between the the temperature and humidty
+- We used more data points compared to the previous visualisation to show the overall relationship between the the temperature and humidity
 
 
-We used matplotlib and seaborn as our data visuliasation libraries mainly because of the simplicity:
-- We are dealing with simple data and we already have an idea on how the variables relate to each other, there is only limited ways to best display the relationship
+We used matplotlib and seaborn as our data visualisation libraries mainly because of the simplicity:
+- We are dealing with simple data and we already have an idea on how the variables relate to each other, there are only limited ways to best display the relationship
 time, temperature and humidty
-- The APIs are well documented and easy to follow and can be configured easily to our liking although we are limited compared to the other libraries we didnt think that we needed
+- The APIs are well documented, easy to follow and can be configured easily to our liking although we are limited compared to the other libraries we did not think that we needed
 those other features (e.g. interactive plots, geographical map/data etc.)
 - And both libraries have functionality to load graph data from a csv file which makes it easier for us to input data.
