@@ -5,7 +5,7 @@ import json
 
 class Utility:
 
-    def __init__(self,configFile="utility.json"):
+    def __init__(self,configFile="setup.json"):
         self.configFile = configFile
 
     #get current timestamp

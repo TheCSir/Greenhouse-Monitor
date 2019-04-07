@@ -5,7 +5,7 @@ import time
 import sqlite3
 from sendNotification import SendNotification
 from monitorAndNotify import MonitorAndNotify
-from usefulMethods import Utility
+from Utility.utility_methods import Utility
 
 
 class GreenHouseBluetooth:
@@ -14,11 +14,12 @@ class GreenHouseBluetooth:
         utility = Utility()
         self.dbname = utility.getDbName()
 
+    #check if the mac address passed in is in the database (i.e. paired with)
     def isDeviceInDb(self, mac_address):
         conn = sqlite3.connect(self.dbname)
         cur = conn.cursor()
 
-        #check if the mac address passed in is in the database (i.e. paired with)
+        
         cur.execute("SELECT count(SENSEHAT_BTDevices.mac_address) FROM SENSEHAT_BTDevices WHERE SENSEHAT_BTDEvices.mac_address = (?)",(mac_address,))
         result = cur.fetchall()
         for row in result:
@@ -58,6 +59,7 @@ class GreenHouseBluetooth:
         conn.commit()
         conn.close()
 
-#TEST: a = GreenHouseBluetooth()
-#TEST: a.addNewDevice("48:E2:44:F5:6B:62")
-#TEST: a.search()
+
+#execute
+ghBluetooth = GreenHouseBluetooth()
+ghBluetooth.search()

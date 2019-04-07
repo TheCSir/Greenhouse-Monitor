@@ -2,7 +2,7 @@
 import csv
 import sqlite3
 
-class createCsv:
+class createCSV:
 
     # Initializer / Instance Attributes
     def __init__(self, dbName,flename):

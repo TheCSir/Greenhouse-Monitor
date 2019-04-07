@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 from datetime import datetime, timedelta
 from sendNotification import SendNotification
-from usefulMethods import Utility
+from Utility.utility_methods import Utility
 from sense_hat import SenseHat
 import time
 import sqlite3

@@ -17,7 +17,5 @@ class ScatterPlot(AbstractAnalytics):
 		x = "Humidity"		
 		a.plot(x, y="Temperature",kind="scatter",color="g")
 
+		#save the png
 		plt.savefig('scatterplot.png')
-	
-#a = Working()
-#a.test()

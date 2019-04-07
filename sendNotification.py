@@ -3,7 +3,7 @@ import sqlite3
 import time
 import requests
 import json
-from usefulMethods import Utility
+from Utility.utility_methods import Utility
 
 
 class SendNotification:
@@ -23,6 +23,7 @@ class SendNotification:
 		with open(self.configFile, "r") as file:
 			data = json.load(file)
 
+		#add this message if a bluetooth device is connected
 		if(bluetooth == True):
 			bluetooth_msg = "Bluetooth Device Connected!\n"
 

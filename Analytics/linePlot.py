@@ -35,7 +35,3 @@ class LinePlot(AbstractAnalytics):
 
 		#saves the graph into png
 		figure.savefig('lineplot.png')
-
-		
-#testClass = LinePlot()
-#testClass.generatePNG()

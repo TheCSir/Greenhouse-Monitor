@@ -1,6 +1,6 @@
-#!/usr/bin/env python3
 from linePlot import LinePlot
 from scatterPlot import ScatterPlot
+
 
 
 #line plot
