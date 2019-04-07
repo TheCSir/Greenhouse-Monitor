@@ -20,7 +20,6 @@ with conn:
     #table for bluetooth devices
     cur.execute("DROP TABLE IF EXISTS SENSEHAT_BTDevices")
     cur.execute("CREATE TABLE SENSEHAT_BTDevices(mac_address)")
-    cur.execute("INSERT INTO SENSEHAT_BTDevices values(?)",("48:E2:44:F5:6B:62",))
 
     #table for bluetooth notification
     cur.execute("DROP TABLE IF EXISTS SENSEHAT_BTDailyNotification")

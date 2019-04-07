@@ -84,16 +84,20 @@ class CreateReport:
         #analyze daily scores
         if minTemp < data["min_temperature"]:
             isGood = False
-            Message += str(data["min_temperature"]-minTemp) +'*C below Minimum temprature '
+            tempData=round(data["min_temperature"]-minTemp, 1)
+            Message += str(tempData) +'*C below Minimum temprature '
         if maxTemp > data["max_temperature"]:
             isGood = False
-            Message += str(maxTemp-data["min_temperature"]) +'*C above Maximum temprature '
+            tempData=round(maxTemp-data["min_temperature"], 1)
+            Message += str(tempData) +'*C above Maximum temprature '
         if minHum < data["min_humidity"]:
             isGood = False
-            Message += str(data["min_humidity"]-minHum) +'% below Minimum humidity '
+            tempData=round(data["min_humidity"]-minHum, 1)
+            Message += str(tempData) +'% below Minimum humidity '
         if maxHum > data["max_humidity"]:
             isGood = False
-            Message += str(maxHum-data["max_humidity"]) +'% above Maximum humidity '
+            tempData=round(maxHum-data["max_humidity"], 1)
+            Message += str(tempData) +'% above Maximum humidity '
 
         if isGood:
             return ' OK'
