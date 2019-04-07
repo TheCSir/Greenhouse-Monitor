@@ -16,19 +16,23 @@ class GreenHouseBluetooth:
 
     #check if the mac address passed in is in the database (i.e. paired with)
     def isDeviceInDb(self, mac_address):
-        conn = sqlite3.connect(self.dbname)
-        cur = conn.cursor()
 
-        
-        cur.execute("SELECT count(SENSEHAT_BTDevices.mac_address) FROM SENSEHAT_BTDevices WHERE SENSEHAT_BTDEvices.mac_address = (?)",(mac_address,))
-        result = cur.fetchall()
-        for row in result:
-            count = row[0]
+        try:
+            conn = sqlite3.connect(self.dbname)
+            cur = conn.cursor()
 
-        if count > 0:
-            return True
-        else:
-            return False           
+            
+            cur.execute("SELECT count(SENSEHAT_BTDevices.mac_address) FROM SENSEHAT_BTDevices WHERE SENSEHAT_BTDEvices.mac_address = (?)",(mac_address,))
+            result = cur.fetchall()
+            for row in result:
+                count = row[0]
+
+            if count > 0:
+                return True
+            else:
+                return False
+        except Exception as err:
+        print('Query Failed: %s\nError: %s' % (query, str(err)))        
 
     #scans the area to see the bluetooth-enabled devices
     def search(self):
@@ -53,11 +57,14 @@ class GreenHouseBluetooth:
 
     #Add the mac address of the device you want to be found
     def addNewDevice(self, mac_address):
-        conn = sqlite3.connect(self.dbname)
-        curs = conn.cursor()
-        curs.execute("INSERT INTO SENSEHAT_BTDevices VALUES(?)",(mac_address,))
-        conn.commit()
-        conn.close()
+        try:
+            conn = sqlite3.connect(self.dbname)
+            curs = conn.cursor()
+            curs.execute("INSERT INTO SENSEHAT_BTDevices VALUES(?)",(mac_address,))
+            conn.commit()
+            conn.close()
+        except Exception as err:
+        print('Query Failed: %s\nError: %s' % (query, str(err)))
 
 
 #execute

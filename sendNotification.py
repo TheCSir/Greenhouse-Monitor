@@ -38,14 +38,17 @@ class SendNotification:
 	def send_notification(self,title,body):
 
 		utility = Utility()
-		conn = sqlite3.connect(utility.getDbName())
-		cur = conn.cursor()
-
+		
+		try:
         #check if notification is send already
-		cur.execute("SELECT count(date) FROM " + self.tableName + " where date = (?)",(self.date,))
-		result= cur.fetchall()
-		for row in result:
-			count = row[0]
+			conn = sqlite3.connect(utility.getDbName())
+			cur = conn.cursor()
+			cur.execute("SELECT count(date) FROM " + self.tableName + " where date = (?)",(self.date,))
+			result= cur.fetchall()
+			for row in result:
+				count = row[0]
+		except Exception as err:
+        print('Query Failed: %s\nError: %s' % (query, str(err)))
 
         #count is not 0 if notification is alrady sent for the day
 		if count == 0:
@@ -59,9 +62,12 @@ class SendNotification:
 
             #if not update database
 			else:
-				cur.execute("INSERT INTO " + self.tableName + " (date) VALUES (?)",(self.date,))
-				conn.commit()        
-				conn.close()
+				try:
+					cur.execute("INSERT INTO " + self.tableName + " (date) VALUES (?)",(self.date,))
+					conn.commit()        
+					conn.close()
+				except Exception as err:
+        		print('Query Failed: %s\nError: %s' % (query, str(err)))
 
 
 

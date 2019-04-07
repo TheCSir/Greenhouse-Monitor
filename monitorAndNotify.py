@@ -33,15 +33,21 @@ class MonitorAndNotify():
     #add gathered data to Database
     def logData(self):
 
-        utility = Utility()
-        date = utility.getDate()
-        time = utility.getTime()
+        try:
+            utility = Utility()
+            date = utility.getDate()
+            time = utility.getTime()
+        except Exception as err
+            print('Failed to load Utility data: %s'(str(err)))
 
-        conn = sqlite3.connect(utility.getDbName())
-        curs = conn.cursor()
-        curs.execute("INSERT INTO SENSEHAT_data values(?,?,?,?)", (date, time, self.temperature, self.humidity))
-        conn.commit()
-        conn.close()
+        try:
+            conn = sqlite3.connect(utility.getDbName())
+            curs = conn.cursor()
+            curs.execute("INSERT INTO SENSEHAT_data values(?,?,?,?)", (date, time, self.temperature, self.humidity))
+            conn.commit()
+            conn.close()
+        except Exception as err:
+        print('Query Failed: %s\nError: %s' % (query, str(err)))
 
         #Check recorded temperature/humidity to see if needed to push notification
         alert = SendNotification('SENSEHAT_DailyNotification',date)

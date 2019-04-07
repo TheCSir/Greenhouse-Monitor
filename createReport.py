@@ -14,58 +14,63 @@ class CreateReport:
     #get datafromDatabase
     def GenerateReport(self):
 
-        #open sql connection
-        conn = sqlite3.connect(self.dbName)
-        cur = conn.cursor()
-
         #create report CSV file
         self.createCSV()
 
-        #get all diffrent days
-        cur.execute("SELECT date FROM `SENSEHAT_Data` GROUP BY SENSEHAT_Data.date;")
+        try:
+            #open sql connection
+            conn = sqlite3.connect(self.dbName)
+            cur = conn.cursor()
 
-        #loop throught days
-        result= cur.fetchall()
-        for row in result:
-            date = row[0]
-            currentline = self.AnalyzeData(self.GetDailyData(date)[0],self.GetDailyData(date)[1],
-                            self.GetDailyData(date)[2],self.GetDailyData(date)[3])
-            
-            #append data to csv
-            self.writeToCSV(date,currentline)
+            #get all diffrent days
+            cur.execute("SELECT date FROM `SENSEHAT_Data` GROUP BY SENSEHAT_Data.date;")
+            result= cur.fetchall()
 
-
+            #loop throught days
+            for row in result:
+                date = row[0]
+                currentline = self.AnalyzeData(self.GetDailyData(date)[0],self.GetDailyData(date)[1],
+                                self.GetDailyData(date)[2],self.GetDailyData(date)[3])
+                
+                #append data to csv
+                self.writeToCSV(date,currentline)
+        except Exception as err:
+        print('Query Failed: %s\nError: %s' % (query, str(err)))
 
     #get the min max data for the selected date
     def GetDailyData(self,date):
 
-        conn = sqlite3.connect(self.dbName)
-        cur = conn.cursor()
+        try:
+            conn = sqlite3.connect(self.dbName)
+            cur = conn.cursor()
 
-        #get values for the day
-        #max temprature
-        cur.execute("SELECT max(SENSEHAT_Data.temp) FROM `SENSEHAT_Data` WHERE SENSEHAT_Data.date= (?)",(date,))
-        result= cur.fetchall()
-        for row in result:
-            MaxTemp = row[0]
+            #get values for the day
+            #max temprature
+            cur.execute("SELECT max(SENSEHAT_Data.temp) FROM `SENSEHAT_Data` WHERE SENSEHAT_Data.date= (?)",(date,))
+            result= cur.fetchall()
 
-        #min temprature
-        cur.execute("SELECT min(SENSEHAT_Data.temp) FROM `SENSEHAT_Data` WHERE SENSEHAT_Data.date= (?)",(date,))
-        result= cur.fetchall()
-        for row in result:
-            MinTemp = row[0]
+            for row in result:
+                MaxTemp = row[0]
 
-        #max humidity
-        cur.execute("SELECT max(SENSEHAT_Data.humidity) FROM `SENSEHAT_Data` WHERE SENSEHAT_Data.date= (?)",(date,))
-        result= cur.fetchall()
-        for row in result:
-            MaxHumidity = row[0]
+            #min temprature
+            cur.execute("SELECT min(SENSEHAT_Data.temp) FROM `SENSEHAT_Data` WHERE SENSEHAT_Data.date= (?)",(date,))
+            result= cur.fetchall()
+            for row in result:
+                MinTemp = row[0]
 
-        #min humidity
-        cur.execute("SELECT min(SENSEHAT_Data.humidity) FROM `SENSEHAT_Data` WHERE SENSEHAT_Data.date= (?)",(date,))
-        result= cur.fetchall()
-        for row in result:
-            MinHumidity = row[0]
+            #max humidity
+            cur.execute("SELECT max(SENSEHAT_Data.humidity) FROM `SENSEHAT_Data` WHERE SENSEHAT_Data.date= (?)",(date,))
+            result= cur.fetchall()
+            for row in result:
+                MaxHumidity = row[0]
+
+            #min humidity
+            cur.execute("SELECT min(SENSEHAT_Data.humidity) FROM `SENSEHAT_Data` WHERE SENSEHAT_Data.date= (?)",(date,))
+            result= cur.fetchall()
+            for row in result:
+                MinHumidity = row[0]
+        except Exception as err:
+        print('Query Failed: %s\nError: %s' % (query, str(err)))
 
 
         #return format is (Min,Max)/(Temprature,Humidity)
@@ -78,8 +83,12 @@ class CreateReport:
         Message = ''
 
         #load data from json
-        with open(self.configurations, "r") as file:
-            data = json.load(file)
+        try:
+            with open(self.configurations, "r") as file:
+                data = json.load(file)
+        except IOError as e:
+            print "I/O error opening config file ({0}): {1}".format(e.errno, e.strerror)
+        
         
         #analyze daily scores
         if minTemp < data["min_temperature"]:
@@ -106,19 +115,25 @@ class CreateReport:
 
     #create filenamed 'report.csv'
     def createCSV(self):
-        
-        with open(self.filename , 'w') as file:
 
-            #append initial row
-            writer = csv.writer(file)
-            writer.writerow(['Date','Status'])
+        try:
+            with open(self.filename , 'w') as file:
+
+                #append initial row
+                writer = csv.writer(file)
+                writer.writerow(['Date','Status'])
+        except IOError as e:
+            print "I/O error({0}): {1}".format(e.errno, e.strerror)
 
     #append the data to csv
     def writeToCSV(self,date,status):
 
-        with open(self.filename , 'a' ,newline='') as file:
+        try:
+            with open(self.filename , 'a' ,newline='') as file:
 
-            #append data
-            writer = csv.writer(file,escapechar='', quoting=csv.QUOTE_NONE)
-            writer.writerow([date,status])
+                #append data
+                writer = csv.writer(file,escapechar='', quoting=csv.QUOTE_NONE)
+                writer.writerow([date,status])
+        except IOError as e:
+            print "I/O error({0}): {1}".format(e.errno, e.strerror)
             
