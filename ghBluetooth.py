@@ -32,7 +32,7 @@ class GreenHouseBluetooth:
             else:
                 return False
         except Exception as err:
-        print('Query Failed: %s\nError: %s' % (query, str(err)))        
+            print('Query Failed: %s\nError: %s' % (query, str(err)))        
 
     #scans the area to see the bluetooth-enabled devices
     def search(self):
@@ -64,7 +64,7 @@ class GreenHouseBluetooth:
             conn.commit()
             conn.close()
         except Exception as err:
-        print('Query Failed: %s\nError: %s' % (query, str(err)))
+            print('Query Failed: %s\nError: %s' % (query, str(err)))
 
 
 #execute

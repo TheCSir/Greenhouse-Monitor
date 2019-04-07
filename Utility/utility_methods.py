@@ -1,6 +1,7 @@
 from datetime import datetime, timedelta
 import time
 import json
+import sys
 
 
 class Utility:
@@ -15,7 +16,23 @@ class Utility:
             data = json.load(file)
         
         currentTime = datetime.utcnow()
-        currentTime = currentTime - timedelta(hours=data["timezone"])
+
+        timezone = data["timezone"]
+
+        #validating UTC offset given
+        try:
+            if(timezone[0] == "+"):
+                currentTime = currentTime + timedelta(hours=int(int(timezone[1:3])))
+            elif(timezone[0] == "-"):
+                currentTime = currentTime - timedelta(hours=int(timezone[1:3]))
+            else:
+                raise Exception("Invalid timezone. Please double check setup.json")
+        except Exception as error:
+            print(error)
+            sys.exit(1)
+                      
+ 
+
         return(currentTime.strftime("%H:%M"))
 
     #get current date
@@ -34,3 +51,4 @@ class Utility:
         with open(self.configFile, "r") as file:
             data = json.load(file)
         return data["accessToken"]
+

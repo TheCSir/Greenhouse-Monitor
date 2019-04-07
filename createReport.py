@@ -35,7 +35,7 @@ class CreateReport:
                 #append data to csv
                 self.writeToCSV(date,currentline)
         except Exception as err:
-        print('Query Failed: %s\nError: %s' % (query, str(err)))
+            print('Query Failed: %s\nError: %s' % (query, str(err)))
 
     #get the min max data for the selected date
     def GetDailyData(self,date):
@@ -70,7 +70,7 @@ class CreateReport:
             for row in result:
                 MinHumidity = row[0]
         except Exception as err:
-        print('Query Failed: %s\nError: %s' % (query, str(err)))
+            print('Query Failed: %s\nError: %s' % (query, str(err)))
 
 
         #return format is (Min,Max)/(Temprature,Humidity)
@@ -87,7 +87,7 @@ class CreateReport:
             with open(self.configurations, "r") as file:
                 data = json.load(file)
         except IOError as e:
-            print "I/O error opening config file ({0}): {1}".format(e.errno, e.strerror)
+            print("I/O error opening config file ({0}): {1}".format(e.errno, e.strerror))
         
         
         #analyze daily scores
@@ -123,7 +123,7 @@ class CreateReport:
                 writer = csv.writer(file)
                 writer.writerow(['Date','Status'])
         except IOError as e:
-            print "I/O error({0}): {1}".format(e.errno, e.strerror)
+            print("I/O error({0}): {1}".format(e.errno, e.strerror))
 
     #append the data to csv
     def writeToCSV(self,date,status):
@@ -135,5 +135,5 @@ class CreateReport:
                 writer = csv.writer(file,escapechar='', quoting=csv.QUOTE_NONE)
                 writer.writerow([date,status])
         except IOError as e:
-            print "I/O error({0}): {1}".format(e.errno, e.strerror)
+            print("I/O error({0}): {1}".format(e.errno, e.strerror))
             

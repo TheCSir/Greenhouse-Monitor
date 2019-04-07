@@ -40,7 +40,7 @@ class SendNotification:
 		utility = Utility()
 		
 		try:
-        #check if notification is send already
+		#check if notification is send already
 			conn = sqlite3.connect(utility.getDbName())
 			cur = conn.cursor()
 			cur.execute("SELECT count(date) FROM " + self.tableName + " where date = (?)",(self.date,))
@@ -48,7 +48,7 @@ class SendNotification:
 			for row in result:
 				count = row[0]
 		except Exception as err:
-        print('Query Failed: %s\nError: %s' % (query, str(err)))
+			print('Query Failed: %s\nError: %s' % (query, str(err)))
 
         #count is not 0 if notification is alrady sent for the day
 		if count == 0:
@@ -56,18 +56,18 @@ class SendNotification:
 			data_send = {"type": "note", "title": title, "body": body}
 			response = requests.post('https://api.pushbullet.com/v2/pushes', data=json.dumps(data_send), headers={'Authorization': 'Bearer ' + utility.getAccessToken(), 'Content-Type': 'application/json'})
             
-            #check if sending fails
+			#check if sending fails
 			if response.status_code != 200:
 				raise Exception('Message not sent.')
 
-            #if not update database
+			#if not update database
 			else:
 				try:
 					cur.execute("INSERT INTO " + self.tableName + " (date) VALUES (?)",(self.date,))
 					conn.commit()        
 					conn.close()
 				except Exception as err:
-        		print('Query Failed: %s\nError: %s' % (query, str(err)))
+					print('Query Failed: %s\nError: %s' % (query, str(err)))
 
 
 

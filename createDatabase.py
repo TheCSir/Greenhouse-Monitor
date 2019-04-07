@@ -26,4 +26,4 @@ with conn:
         cur.execute("DROP TABLE IF EXISTS SENSEHAT_BTDailyNotification")
         cur.execute("CREATE TABLE SENSEHAT_BTDailyNotification(date DATETIME)")
     except Exception as err:
-        		print('Query Failed: %s\nError: %s' % (query, str(err)))
+        print('Query Failed: %s\nError: %s' % (query, str(err)))

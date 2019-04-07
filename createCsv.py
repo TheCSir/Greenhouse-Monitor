@@ -36,7 +36,7 @@ class CreateCSV:
                 #append data to csv
                 self.writeToCSV(date,time,temperature,humidity)
         except Exception as err:
-        print('Query Failed: %s\nError: %s' % (query, str(err)))
+            print('Query Failed: %s\nError: %s' % (query, str(err)))
 
         
 
@@ -45,24 +45,22 @@ class CreateCSV:
 
         try:
             with open(self.outputFileName , 'a', newline='') as file:
-
                 #append data
                 writer = csv.writer(file,escapechar='', quoting=csv.QUOTE_NONE)
                 writer.writerow([date,time,temperature,humidity])
         except IOError as e:
-            print "I/O error({0}): {1}".format(e.errno, e.strerror)
+            print("I/O error({0}): {1}".format(e.errno, e.strerror))
 
     #init csv header
     def InitCSV(self):
 
         try:
             with open(self.outputFileName , 'w',newline='') as file:
-
                 #append initial row
                 writer = csv.writer(file)
                 writer.writerow(['Date','Time','Temperature','Humidity'])
         except IOError as e:
-            print "I/O error({0}): {1}".format(e.errno, e.strerror)
+            print("I/O error({0}): {1}".format(e.errno, e.strerror))
 
 report = CreateCSV('Analytics/data.csv')
 report.GenerateReport()
