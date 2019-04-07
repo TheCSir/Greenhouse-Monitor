@@ -120,7 +120,7 @@ class CreateReport:
     def create_CSV(self):
 
         try:
-            with open(self.filename , 'w') as file:
+            with open(self.filename , 'w' ,newline='') as file:
 
                 #append initial row
                 writer = csv.writer(file)

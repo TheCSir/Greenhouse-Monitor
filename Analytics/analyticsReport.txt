@@ -16,4 +16,4 @@ We used matplotlib and seaborn as our data visuliasation libraries mainly becaus
 time, temperature and humidty
 - The APIs are well documented and easy to follow and can be configured easily to our liking although we are limited compared to the other libraries we didnt think that we needed
 those other features (e.g. interactive plots, geographical map/data etc.)
-
+- And both libraries have functionality to load graph data from a csv file which makes it easier for us to input data.
