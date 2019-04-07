@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import bluetooth
 import os
+import sys
 import time
 import sqlite3
 from sendNotification import SendNotification
@@ -32,7 +33,8 @@ class GreenHouseBluetooth:
             else:
                 return False
         except Exception as err:
-            print('Query Failed: %s\nError: %s' % (query, str(err)))        
+            print(error)
+            sys.exit(1)
 
     #scans the area to see the bluetooth-enabled devices
     def search(self):
@@ -64,8 +66,8 @@ class GreenHouseBluetooth:
             conn.commit()
             conn.close()
         except Exception as err:
-            print('Query Failed: %s\nError: %s' % (query, str(err)))
-
+            print(error)
+            sys.exit(1)
 
 #execute
 ghBluetooth = GreenHouseBluetooth()

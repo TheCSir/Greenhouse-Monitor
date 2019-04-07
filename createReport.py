@@ -2,6 +2,7 @@
 import csv
 import sqlite3
 import json
+import sys
 
 class CreateReport:
 
@@ -70,7 +71,8 @@ class CreateReport:
             for row in result:
                 MinHumidity = row[0]
         except Exception as err:
-            print('Query Failed: %s\nError: %s' % (query, str(err)))
+            print(error)
+            sys.exit(1)
 
 
         #return format is (Min,Max)/(Temprature,Humidity)

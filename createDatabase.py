@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import sqlite3
+import sys
 from Utility.utility_methods import Utility
 
 util = Utility()
@@ -26,4 +27,5 @@ with conn:
         cur.execute("DROP TABLE IF EXISTS SENSEHAT_BTDailyNotification")
         cur.execute("CREATE TABLE SENSEHAT_BTDailyNotification(date DATETIME)")
     except Exception as err:
-        print('Query Failed: %s\nError: %s' % (query, str(err)))
+        print(error)
+        sys.exit(1)

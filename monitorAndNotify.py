@@ -4,6 +4,7 @@ from datetime import datetime, timedelta
 from sendNotification import SendNotification
 from Utility.utility_methods import Utility
 from sense_hat import SenseHat
+import sys
 import time
 import sqlite3
 import json
@@ -44,7 +45,8 @@ class MonitorAndNotify():
             conn.commit()
             conn.close()
         except Exception as err:
-            print('Query Failed: %s\nError: %s' % (query, str(err)))
+            print(error)
+            sys.exit(1)
 
         #Check recorded temperature/humidity to see if needed to push notification
         alert = SendNotification('SENSEHAT_DailyNotification',date)

@@ -2,6 +2,7 @@
 import sqlite3
 import time
 import requests
+import sys
 import json
 from Utility.utility_methods import Utility
 
@@ -48,8 +49,8 @@ class SendNotification:
 			for row in result:
 				count = row[0]
 		except Exception as err:
-			print('Query Failed: %s\nError: %s' % (query, str(err)))
-
+			print(error)
+			sys.exit(1)
         #count is not 0 if notification is alrady sent for the day
 		if count == 0:
 
@@ -67,7 +68,8 @@ class SendNotification:
 					conn.commit()        
 					conn.close()
 				except Exception as err:
-					print('Query Failed: %s\nError: %s' % (query, str(err)))
+					print(error)
+					sys.exit(1)
 
 
 

@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import csv
+import sys
 import sqlite3
 from Utility.utility_methods import Utility
 
@@ -36,7 +37,8 @@ class CreateCSV:
                 #append data to csv
                 self.writeToCSV(date,time,temperature,humidity)
         except Exception as err:
-            print('Query Failed: %s\nError: %s' % (query, str(err)))
+            print(error)
+            sys.exit(1)
 
         
 
