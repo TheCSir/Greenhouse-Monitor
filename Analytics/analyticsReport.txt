@@ -1,0 +1,19 @@
+With the data that we have, we went with line plot and scatter plot which has both a similar idea, show the relation between x-y axis. 
+
+For the line plot:
+- We used two y axes (Temperature and Humidity) and Time as the x axis
+- This will show the relationship between Temperature and Humidity as the minute goes by, 
+as there will be a lot of data due to storing it every minute the values for the 'x' axis on the visualization will be crowded that is why we limited
+it only to the past 15 minutes or 15 readings stored. The strength of the line plot is that even though we're using few data points
+due to the continous line we cagit n still see the overall trend by the second.
+
+For the scatter plot:
+- We used more data points compared to the previous visualisation to show the overall relationship between the the temperature and humidity
+
+
+We used matplotlib and seaborn as our data visualisation libraries mainly because of the simplicity:
+- We are dealing with simple data and we already have an idea on how the variables relate to each other, there are only limited ways to best display the relationship
+time, temperature and humidty
+- The APIs are well documented, easy to follow and can be configured easily to our liking although we are limited compared to the other libraries we did not think that we needed
+those other features (e.g. interactive plots, geographical map/data etc.)
+- And both libraries have functionality to load graph data from a csv file which makes it easier for us to input data.
